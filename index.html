@@ -148,6 +148,7 @@
 
         // Food data for the menu
         const foodItems = [
+            // A La Carte Items (14 items)
             {
                 id: 1,
                 name: 'Roti Naan with Cheese',
@@ -176,15 +177,153 @@
                 category: 'A la Carte',
             },
             {
-                id: 4,
-                name: 'Chicken Karahi',
+                id: 5,
+                name: 'Chicken Biryani',
+                rating: 4.7,
+                price: 12.50,
+                image: 'https://placehold.co/150x100/8B0000/FFFFFF?text=Chicken+Biryani',
+                description: 'Fragrant basmati rice cooked with tender chicken pieces and aromatic spices.',
+                category: 'A la Carte',
+            },
+            {
+                id: 6,
+                name: 'Mutton Rogan Josh',
+                rating: 4.8,
+                price: 18.00,
+                image: 'https://placehold.co/150x100/4B0082/FFFFFF?text=Mutton+Rogan',
+                description: 'A rich and aromatic lamb curry, cooked with traditional Kashmiri spices.',
+                category: 'A la Carte',
+            },
+            {
+                id: 7,
+                name: 'Paneer Butter Masala',
                 rating: 4.6,
-                price: 6.00,
+                price: 11.00,
+                image: 'https://placehold.co/150x100/DAA520/FFFFFF?text=Paneer+Masala',
+                description: 'Creamy and mildly spiced curry made with paneer (Indian cheese) in a rich tomato-based gravy.',
+                category: 'A la Carte',
+            },
+            {
+                id: 8,
+                name: 'Dal Makhani',
+                rating: 4.5,
+                price: 9.50,
+                image: 'https://placehold.co/150x100/556B2F/FFFFFF?text=Dal+Makhani',
+                description: 'Black lentils cooked slowly overnight with butter, cream, and spices.',
+                category: 'A la Carte',
+            },
+            {
+                id: 9,
+                name: 'Vegetable Korma',
+                rating: 4.4,
+                price: 10.00,
+                image: 'https://placehold.co/150x100/228B22/FFFFFF?text=Veg+Korma',
+                description: 'Mixed vegetables simmered in a rich, creamy, and mildly spiced gravy.',
+                category: 'A la Carte',
+            },
+            {
+                id: 10,
+                name: 'Fish Curry',
+                rating: 4.7,
+                price: 15.00,
+                image: 'https://placehold.co/150x100/4682B4/FFFFFF?text=Fish+Curry',
+                description: 'Flavorful fish cooked in a tangy and spicy gravy with traditional Indian spices.',
+                category: 'A la Carte',
+            },
+            {
+                id: 11,
+                name: 'Prawn Masala',
+                rating: 4.8,
+                price: 17.00,
+                image: 'https://placehold.co/150x100/800000/FFFFFF?text=Prawn+Masala',
+                description: 'Succulent prawns cooked in a rich, spicy, and aromatic Indian gravy.',
+                category: 'A la Carte',
+            },
+            {
+                id: 12,
+                name: 'Almond Korma',
+                rating: 4.5,
+                price: 13.00,
+                image: 'https://placehold.co/150x100/BDB76B/FFFFFF?text=Almond+Korma',
+                description: 'A mild and creamy curry with a hint of almonds, typically made with chicken or vegetables.',
+                category: 'A la Carte',
+            },
+            {
+                id: 13,
+                name: 'Butter Chicken',
+                rating: 4.9,
+                price: 16.00,
+                image: 'https://placehold.co/150x100/FFA07A/FFFFFF?text=Butter+Chicken',
+                description: 'Tender chicken pieces cooked in a rich, creamy tomato and butter gravy.',
+                category: 'A la Carte',
+            },
+            {
+                id: 14,
+                name: 'Chicken Vindaloo',
+                rating: 4.2,
+                price: 14.00,
+                image: 'https://placehold.co/150x100/8B0000/FFFFFF?text=Chicken+Vindaloo',
+                description: 'A spicy and tangy Goan chicken curry, known for its bold flavors.',
+                category: 'A la Carte',
+            },
+            {
+                id: 15,
+                name: 'Vegetable Biryani',
+                rating: 4.6,
+                price: 11.50,
+                image: 'https://placehold.co/150x100/3CB371/FFFFFF?text=Veg+Biryani',
+                description: 'A flavorful and aromatic rice dish prepared with mixed vegetables and spices.',
+                category: 'A la Carte',
+            },
+
+            // Combo Items (5 items)
+            {
+                id: 4,
+                name: 'Chicken Karahi Combo',
+                rating: 4.6,
+                price: 25.00,
                 image: 'https://placehold.co/150x100/8B4513/FFFFFF?text=Chicken+Karahi',
-                description: 'A traditional Pakistani and North Indian dish, cooked in a wok-like pan with tomatoes, ginger, garlic, and green chilies.',
+                description: 'A traditional Pakistani and North Indian dish, cooked in a wok-like pan with tomatoes, ginger, garlic, and green chilies. Comes with naan and raita.',
+                category: 'Combo',
+            },
+            {
+                id: 16,
+                name: 'Chicken Tikka Combo',
+                rating: 4.7,
+                price: 28.00,
+                image: 'https://placehold.co/150x100/FF7F50/FFFFFF?text=Tikka+Combo',
+                description: 'Marinated and grilled chicken tikka served with rice, naan, and a side salad.',
+                category: 'Combo',
+            },
+            {
+                id: 17,
+                name: 'Vegetarian Delight Combo',
+                rating: 4.5,
+                price: 22.00,
+                image: 'https://placehold.co/150x100/6A5ACD/FFFFFF?text=Veg+Delight',
+                description: 'Assortment of vegetarian curries, dal, rice, and bread for a complete meal.',
+                category: 'Combo',
+            },
+            {
+                id: 18,
+                name: 'Family Feast Combo',
+                rating: 4.9,
+                price: 55.00,
+                image: 'https://placehold.co/150x100/D2B48C/FFFFFF?text=Family+Feast',
+                description: 'Generous portions of various dishes, perfect for sharing with the family.',
+                category: 'Combo',
+            },
+            {
+                id: 19,
+                name: 'Executive Lunch Combo',
+                rating: 4.6,
+                price: 19.50,
+                image: 'https://placehold.co/150x100/BC8F8F/FFFFFF?text=Lunch+Combo',
+                description: 'A quick and satisfying lunch option including a main dish, rice, and a drink.',
                 category: 'Combo',
             },
         ];
+
 
         // Function to update cart item count in header/navbar
         function updateCartCountDisplay() {
@@ -249,6 +388,10 @@
                         Faruq Tikka Masala
                     </h1>
                     <p class="text-2xl md:text-4xl font-semibold mb-6">Are you Hungry? Don't Wait!</p>
+                    <!-- Image Placeholder -->
+                    <div class="w-full max-w-lg mb-8 rounded-lg overflow-hidden shadow-xl">
+                        <img src="https://placehold.co/600x400/FFA500/FFFFFF?text=Delicious+Food" alt="Delicious Food" class="w-full h-auto object-cover rounded-lg">
+                    </div>
                     <p class="text-xl md:text-3xl mb-8">Let's start order food now</p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
                         <button id="home-check-menu" class="bg-gray-900 text-orange-400 px-8 py-4 rounded-full text-lg md:text-xl font-bold shadow-lg hover:bg-gray-700 transition-all transform hover:scale-105">
@@ -375,38 +518,8 @@
                                 </div>
                             </div>
                         `;
-                    case 'payment':
-                        return `
-                            <div class="p-6">
-                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Payment Details</h3>
-                                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md" role="alert">
-                                    <p class="font-bold">No payment methods saved.</p>
-                                    <p class="text-sm">Add a payment method for faster checkout.</p>
-                                </div>
-                            </div>
-                        `;
-                    case 'settings':
-                        return `
-                            <div class="p-6">
-                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Settings</h3>
-                                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md" role="alert">
-                                    <p class="font-bold">Settings page under development.</p>
-                                    <p class="text-sm">Check back later for more options.</p>
-                                </div>
-                            </div>
-                        `;
-                    case 'address':
-                        return `
-                            <div class="p-6">
-                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Saved Address</h3>
-                                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
-                                    <p class="font-bold">No addresses saved.</p>
-                                    <p class="text-sm">Add your delivery address for convenience.</p>
-                                </div>
-                            </div>
-                        `;
                     default:
-                        return '';
+                        return ''; // Return empty for unhandled tabs
                 }
             }
 
@@ -417,9 +530,6 @@
                             <ul class="space-y-4">
                                 <li><button id="account-tab-personal" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'personal' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Personal Details</button></li>
                                 <li><button id="account-tab-orders" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'orders' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Orders</button></li>
-                                <li><button id="account-tab-payment" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'payment' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Payment Details</button></li>
-                                <li><button id="account-tab-settings" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'settings' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Settings</button></li>
-                                <li><button id="account-tab-address" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'address' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Saved Address</button></li>
                                 <li><button id="account-logout" class="block w-full text-left py-3 px-4 rounded-lg font-medium text-red-400 hover:bg-gray-700 transition-colors">Log Out</button></li>
                             </ul>
                         </div>
@@ -434,13 +544,20 @@
             const accountContentDiv = document.getElementById('account-content');
             const updateAccountContent = () => {
                 accountContentDiv.innerHTML = getTabContent();
+                // Ensure the correct tab button is highlighted after content update
+                document.getElementById('account-tab-personal').classList.toggle('bg-orange-500', activeTab === 'personal');
+                document.getElementById('account-tab-personal').classList.toggle('text-white', activeTab === 'personal');
+                document.getElementById('account-tab-personal').classList.toggle('text-gray-300', activeTab !== 'personal');
+                document.getElementById('account-tab-personal').classList.toggle('hover:bg-gray-700', activeTab !== 'personal');
+
+                document.getElementById('account-tab-orders').classList.toggle('bg-orange-500', activeTab === 'orders');
+                document.getElementById('account-tab-orders').classList.toggle('text-white', activeTab === 'orders');
+                document.getElementById('account-tab-orders').classList.toggle('text-gray-300', activeTab !== 'orders');
+                document.getElementById('account-tab-orders').classList.toggle('hover:bg-gray-700', activeTab !== 'orders');
             };
 
             document.getElementById('account-tab-personal').onclick = () => { activeTab = 'personal'; updateAccountContent(); };
             document.getElementById('account-tab-orders').onclick = () => { activeTab = 'orders'; updateAccountContent(); };
-            document.getElementById('account-tab-payment').onclick = () => { activeTab = 'payment'; updateAccountContent(); };
-            document.getElementById('account-tab-settings').onclick = () => { activeTab = 'settings'; updateAccountContent(); };
-            document.getElementById('account-tab-address').onclick = () => { activeTab = 'address'; updateAccountContent(); };
             document.getElementById('account-logout').onclick = () => { isLoggedIn = false; navigateTo('home'); };
         }
 
