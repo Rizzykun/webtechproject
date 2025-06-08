@@ -146,6 +146,12 @@
         let showLogin = true; // For login/register toggle
         let isLoggedIn = false; // Simple authentication state
 
+        // Global storage for users (simulating a database)
+        // IMPORTANT: In a real application, user data and passwords should be stored securely on a server-side database.
+        // This is for demonstration purposes only and should NOT be used in production.
+        let allUsers = [];
+        let currentUser = null; // Stores the currently logged-in user's object
+
         // Food data for the menu
         const foodItems = [
             // A La Carte Items (14 items)
@@ -480,6 +486,16 @@
             let activeTab = 'personal'; // Default tab for account page
 
             function getTabContent() {
+                // Ensure current user is logged in to display their details
+                if (!currentUser) {
+                    return `
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
+                            <p class="font-bold">Access Denied!</p>
+                            <p class="text-sm">Please log in to view your account details.</p>
+                        </div>
+                    `;
+                }
+
                 switch (activeTab) {
                     case 'personal':
                         return `
@@ -487,39 +503,58 @@
                                 <h3 class="text-3xl font-bold text-gray-800 mb-6">Personal Details</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
-                                        <input type="text" value="John" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="acc-username">Username</label>
+                                        <input type="text" id="acc-username" value="${currentUser.username || ''}" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Phone number</label>
-                                        <input type="text" value="011-22233344" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="acc-phone">Phone number</label>
+                                        <input type="text" id="acc-phone" value="${currentUser.phoneNumber || ''}" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                                        <input type="email" value="john123@gmail.com" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="acc-email">Email</label>
+                                        <input type="email" id="acc-email" value="${currentUser.email || ''}" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                                        <input type="password" value="************" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="acc-password">Password</label>
+                                        <input type="password" id="acc-password" value="${currentUser.password || ''}" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     </div>
                                 </div>
                                 <div class="flex justify-end mt-8">
-                                    <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">Save Changes</button>
+                                    <button id="save-personal-details" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">Save Changes</button>
                                 </div>
                             </div>
                         `;
                     case 'orders':
-                        return `
-                            <div class="p-6">
-                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Order History</h3>
+                        let ordersHtml = '';
+                        if (currentUser.orderHistory && currentUser.orderHistory.length > 0) {
+                            ordersHtml = currentUser.orderHistory.map(order => `
+                                <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                                    <p class="font-bold text-lg text-gray-800">Order ID: ${order.orderId}</p>
+                                    <p class="text-sm text-gray-600">Date: ${order.date}</p>
+                                    <p class="text-xl font-bold text-orange-500">Total: RM ${order.total.toFixed(2)}</p>
+                                    <ul class="list-disc list-inside text-gray-700 mt-2">
+                                        ${order.items.map(item => `
+                                            <li>${item.name} (x${item.quantity}) - RM ${(item.price * item.quantity).toFixed(2)}</li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            `).join('');
+                        } else {
+                            ordersHtml = `
                                 <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md" role="alert">
                                     <p class="font-bold">No orders found.</p>
                                     <p class="text-sm">Start ordering delicious food from our menu!</p>
                                 </div>
+                            `;
+                        }
+                        return `
+                            <div class="p-6">
+                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Order History</h3>
+                                ${ordersHtml}
                             </div>
                         `;
                     default:
-                        return ''; // Return empty for unhandled tabs
+                        return ''; // Should not happen with controlled tabs
                 }
             }
 
@@ -544,21 +579,36 @@
             const accountContentDiv = document.getElementById('account-content');
             const updateAccountContent = () => {
                 accountContentDiv.innerHTML = getTabContent();
-                // Ensure the correct tab button is highlighted after content update
-                document.getElementById('account-tab-personal').classList.toggle('bg-orange-500', activeTab === 'personal');
-                document.getElementById('account-tab-personal').classList.toggle('text-white', activeTab === 'personal');
-                document.getElementById('account-tab-personal').classList.toggle('text-gray-300', activeTab !== 'personal');
-                document.getElementById('account-tab-personal').classList.toggle('hover:bg-gray-700', activeTab !== 'personal');
+                // Re-attach event listener for save button if 'personal' tab is active
+                if (activeTab === 'personal' && currentUser) {
+                    document.getElementById('save-personal-details').onclick = () => {
+                        currentUser.username = document.getElementById('acc-username').value;
+                        currentUser.phoneNumber = document.getElementById('acc-phone').value;
+                        currentUser.email = document.getElementById('acc-email').value;
+                        currentUser.password = document.getElementById('acc-password').value; // In real app, re-hash if changed
 
-                document.getElementById('account-tab-orders').classList.toggle('bg-orange-500', activeTab === 'orders');
-                document.getElementById('account-tab-orders').classList.toggle('text-white', activeTab === 'orders');
-                document.getElementById('account-tab-orders').classList.toggle('text-gray-300', activeTab !== 'orders');
-                document.getElementById('account-tab-orders').classList.toggle('hover:bg-gray-700', activeTab !== 'orders');
+                        // Update the user object in the allUsers array
+                        const userIndex = allUsers.findIndex(user => user.username === currentUser.username);
+                        if (userIndex !== -1) {
+                            allUsers[userIndex] = { ...currentUser };
+                        }
+                        // Optionally, provide feedback to the user (e.g., "Saved!")
+                        console.log('User details saved:', currentUser);
+                        // No alert(), so console log or temporary UI message
+                    };
+                }
             };
 
             document.getElementById('account-tab-personal').onclick = () => { activeTab = 'personal'; updateAccountContent(); };
             document.getElementById('account-tab-orders').onclick = () => { activeTab = 'orders'; updateAccountContent(); };
-            document.getElementById('account-logout').onclick = () => { isLoggedIn = false; navigateTo('home'); };
+            document.getElementById('account-logout').onclick = () => {
+                isLoggedIn = false;
+                currentUser = null; // Clear current user on logout
+                navigateTo('home');
+            };
+
+            // Initial attachment of save button listener if personal tab is default
+            updateAccountContent();
         }
 
         function renderLoginPage() {
@@ -572,6 +622,8 @@
                         </div>
                         <div class="md:w-2/3 p-8">
                             <h2 class="text-3xl font-bold mb-8 text-center text-orange-400" id="login-register-heading">Log In</h2>
+                            <div id="login-error-message" class="text-red-400 text-center mb-4 hidden"></div>
+
                             <form class="space-y-6" id="login-form">
                                 <div>
                                     <label class="block text-gray-300 text-sm font-bold mb-2" for="username">Username</label>
@@ -590,7 +642,9 @@
                                     </button>
                                 </div>
                             </form>
+
                             <form class="space-y-6 hidden" id="register-form">
+                                <div id="register-error-message" class="text-red-400 text-center mb-4 hidden"></div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-gray-300 text-sm font-bold mb-2" for="firstname">Firstname</label>
@@ -606,8 +660,16 @@
                                     <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="reg-email" type="email" placeholder="Email" />
                                 </div>
                                 <div>
+                                    <label class="block text-gray-300 text-sm font-bold mb-2" for="reg-username">Username</label>
+                                    <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="reg-username" type="text" placeholder="Choose a Username" />
+                                </div>
+                                <div>
                                     <label class="block text-gray-300 text-sm font-bold mb-2" for="reg-password">Password</label>
                                     <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="reg-password" type="password" placeholder="************" />
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 text-sm font-bold mb-2" for="reg-phone">Phone number</label>
+                                    <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="reg-phone" type="text" placeholder="e.g., 012-3456789" />
                                 </div>
                                 <div class="flex flex-col space-y-4">
                                     <button type="submit" id="register-button" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
@@ -625,16 +687,20 @@
             const loginForm = document.getElementById('login-form');
             const registerForm = document.getElementById('register-form');
             const heading = document.getElementById('login-register-heading');
+            const loginErrorMessage = document.getElementById('login-error-message');
+            const registerErrorMessage = document.getElementById('register-error-message');
 
             const toggleForms = () => {
                 if (showLogin) {
                     loginForm.classList.remove('hidden');
                     registerForm.classList.add('hidden');
                     heading.textContent = 'Log In';
+                    registerErrorMessage.classList.add('hidden'); // Clear register errors
                 } else {
                     loginForm.classList.add('hidden');
                     registerForm.classList.remove('hidden');
                     heading.textContent = 'Register';
+                    loginErrorMessage.classList.add('hidden'); // Clear login errors
                 }
             };
             toggleForms(); // Set initial state
@@ -650,14 +716,59 @@
 
             document.getElementById('login-button').onclick = (e) => {
                 e.preventDefault();
-                isLoggedIn = true;
-                navigateTo('home');
+                const usernameInput = document.getElementById('username').value;
+                const passwordInput = document.getElementById('password').value;
+
+                const user = allUsers.find(u => u.username === usernameInput && u.password === passwordInput);
+
+                if (user) {
+                    isLoggedIn = true;
+                    currentUser = user; // Set the current user
+                    loginErrorMessage.classList.add('hidden');
+                    navigateTo('home');
+                } else {
+                    loginErrorMessage.textContent = 'Invalid username or password.';
+                    loginErrorMessage.classList.remove('hidden');
+                }
             };
+
             document.getElementById('register-button').onclick = (e) => {
                 e.preventDefault();
-                showLogin = true; // After registration, show login form
+                const firstname = document.getElementById('firstname').value;
+                const lastname = document.getElementById('lastname').value;
+                const email = document.getElementById('reg-email').value;
+                const username = document.getElementById('reg-username').value;
+                const password = document.getElementById('reg-password').value;
+                const phoneNumber = document.getElementById('reg-phone').value;
+
+                if (!firstname || !lastname || !email || !username || !password || !phoneNumber) {
+                    registerErrorMessage.textContent = 'All fields are required.';
+                    registerErrorMessage.classList.remove('hidden');
+                    return;
+                }
+
+                if (allUsers.some(u => u.username === username)) {
+                    registerErrorMessage.textContent = 'Username already exists. Please choose another.';
+                    registerErrorMessage.classList.remove('hidden');
+                    return;
+                }
+
+                const newUser = {
+                    firstname,
+                    lastname,
+                    email,
+                    username,
+                    password, // In a real app, hash this password!
+                    phoneNumber,
+                    orderHistory: [],
+                };
+                allUsers.push(newUser);
+                registerErrorMessage.classList.add('hidden'); // Clear any previous errors
+                showLogin = true; // After successful registration, switch to login form
                 toggleForms();
-                // In a real app, you'd send registration data to a server here.
+                // Optionally, show a success message:
+                loginErrorMessage.textContent = 'Registration successful! Please log in.';
+                loginErrorMessage.classList.remove('hidden');
             };
         }
 
@@ -914,6 +1025,18 @@
         }
 
         function renderPaymentSuccessPage() {
+            // Only add to order history if there are items and a user is logged in
+            if (currentUser && cartItems.length > 0) {
+                const newOrder = {
+                    orderId: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`, // Simple unique ID
+                    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+                    items: [...cartItems] // Create a copy of cart items for history
+                };
+                currentUser.orderHistory.push(newOrder);
+                console.log('Order added to history:', newOrder);
+            }
+
             appRoot.innerHTML = `
                 <div class="min-h-screen bg-gradient-to-br from-green-400 to-teal-500 text-white flex flex-col items-center justify-center p-4 pt-20 md:pt-24 pb-20 text-center">
                     <svg class="w-32 h-32 mb-8 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -1076,7 +1199,15 @@
                     const attachPaymentButtonListeners = () => {
                         const payNowBtn = document.getElementById('pay-now-btn');
                         if (payNowBtn) {
-                            payNowBtn.onclick = () => navigateTo('payment-success');
+                            payNowBtn.onclick = () => {
+                                if (!isLoggedIn) {
+                                    // Handle case where user is not logged in but tries to pay
+                                    // In a real app, this would redirect to login or show an error
+                                    console.log("Please log in to complete your order.");
+                                    // For now, we'll allow guests to proceed for demonstration
+                                }
+                                navigateTo('payment-success');
+                            }
                         }
                     };
 
@@ -1125,6 +1256,11 @@
                     renderContactPage();
                     break;
                 case 'account':
+                    // If not logged in, redirect to login page
+                    if (!isLoggedIn) {
+                        navigateTo('login');
+                        return; // Stop rendering this page
+                    }
                     renderAccountPage();
                     break;
                 case 'login':
