@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faruq Tikka Masala</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f3f4f6; /* Light gray background for overall page */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        /* Custom styles for mobile navigation to ensure it's always at the bottom */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #111827; /* gray-900 */
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 0.875rem; /* text-sm */
+        }
+        .mobile-nav button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            transition-property: background-color;
+            transition-duration: 150ms;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mobile-nav button:hover {
+            background-color: #374151; /* gray-700 */
+        }
+
+        /* Desktop header styling */
+        .desktop-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #111827; /* gray-900 */
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+            display: none; /* Hidden by default, shown on md and up */
+            justify-content: space-between;
+            align-items: center;
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .mobile-nav {
+                display: none; /* Hide mobile nav on desktop */
+            }
+            .desktop-header {
+                display: flex; /* Show desktop header */
+            }
+        }
+        .page-content {
+            padding-top: 5rem; /* Space for fixed header on desktop */
+            padding-bottom: 5rem; /* Space for fixed nav on mobile */
+        }
+        @media (min-width: 768px) {
+            .page-content {
+                padding-bottom: 0; /* No bottom padding needed on desktop */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Desktop Header -->
+    <header class="desktop-header">
+        <div class="text-2xl font-bold text-orange-400">Faruq Tikka Masala</div>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><button class="hover:text-orange-400 transition-colors" data-page="home">Home</button></li>
+                <li><button class="hover:text-orange-400 transition-colors" data-page="menu">Menu</button></li>
+                <li><button class="hover:text-orange-400 transition-colors" data-page="about">About</button></li>
+                <li><button class="hover:text-orange-400 transition-colors" data-page="contact">Contact</button></li>
+                <li><button class="hover:text-orange-400 transition-colors" data-page="account">Account</button></li>
+                <li><button class="hover:text-orange-400 transition-colors" data-page="login">Log In</button></li>
+                <li class="ml-4">
+                    <button class="relative flex items-center hover:text-orange-400 transition-colors" data-page="cart">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span id="cart-item-count" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content area -->
+    <div id="app-root" class="page-content">
+        <!-- Page content will be rendered here by JavaScript -->
+    </div>
+
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <ul class="flex justify-around items-center w-full">
+            <li><button data-page="home" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span>Home</span>
+            </button></li>
+            <li><button data-page="menu" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>Menu</span>
+            </button></li>
+            <li><button data-page="about" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>About</span>
+            </button></li>
+            <li><button data-page="contact" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
+                <span>Contact</span>
+            </button></li>
+            <li><button data-page="account" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <span>Account</span>
+            </button></li>
+            <li><button data-page="login" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                <span>Log In</span>
+            </button></li>
+        </ul>
+    </nav>
+
+    <script>
+        const appRoot = document.getElementById('app-root');
+        let currentPage = 'home';
+        let cartItems = [];
+        let showLogin = true; // For login/register toggle
+        let isLoggedIn = false; // Simple authentication state
+
+        // Food data for the menu
+        const foodItems = [
+            {
+                id: 1,
+                name: 'Roti Naan with Cheese',
+                rating: 4.9,
+                price: 6.00,
+                image: 'https://placehold.co/150x100/A0522D/FFFFFF?text=Cheese+Naan',
+                description: 'Bread With Cheese is a typical food from our restaurant that is much in demand by many people, this is very recommended for you.',
+                category: 'A la Carte',
+            },
+            {
+                id: 2,
+                name: 'Chicken Tandoori',
+                rating: 4.9,
+                price: 4.00,
+                image: 'https://placehold.co/150x100/FF4500/FFFFFF?text=Tandoori+Chicken',
+                description: 'Succulent chicken marinated in yogurt and spices, cooked to perfection in a tandoor.',
+                category: 'A la Carte',
+            },
+            {
+                id: 3,
+                name: 'Roti Naan with Garlic',
+                rating: 4.8,
+                price: 4.00,
+                image: 'https://placehold.co/150x100/6B8E23/FFFFFF?text=Garlic+Naan',
+                description: 'Soft and fluffy naan bread infused with fresh garlic, a perfect accompaniment to any dish.',
+                category: 'A la Carte',
+            },
+            {
+                id: 4,
+                name: 'Chicken Karahi',
+                rating: 4.6,
+                price: 6.00,
+                image: 'https://placehold.co/150x100/8B4513/FFFFFF?text=Chicken+Karahi',
+                description: 'A traditional Pakistani and North Indian dish, cooked in a wok-like pan with tomatoes, ginger, garlic, and green chilies.',
+                category: 'Combo',
+            },
+        ];
+
+        // Function to update cart item count in header/navbar
+        function updateCartCountDisplay() {
+            const count = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+            const cartCountElement = document.getElementById('cart-item-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = count;
+                if (count > 0) {
+                    cartCountElement.classList.remove('hidden');
+                } else {
+                    cartCountElement.classList.add('hidden');
+                }
+            }
+        }
+
+        // Function to navigate between pages
+        function navigateTo(page) {
+            currentPage = page;
+            renderPage();
+            window.scrollTo(0, 0); // Scroll to top on page change
+        }
+
+        // Function to add item to cart
+        function addToCart(item, quantity = 1) {
+            const existingItemIndex = cartItems.findIndex(cartItem => cartItem.id === item.id);
+            if (existingItemIndex > -1) {
+                cartItems[existingItemIndex].quantity += quantity;
+            } else {
+                cartItems.push({ ...item, quantity });
+            }
+            updateCartCountDisplay();
+        }
+
+        // Function to update item quantity in cart
+        function updateCartQuantity(itemId, change) {
+            cartItems = cartItems.map(item =>
+                item.id === itemId
+                    ? { ...item, quantity: Math.max(0, item.quantity + change) }
+                    : item
+            ).filter(item => item.quantity > 0);
+            updateCartCountDisplay();
+            if (currentPage === 'cart') {
+                renderPage(); // Re-render cart page to reflect changes
+            }
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(itemId) {
+            cartItems = cartItems.filter(item => item.id !== itemId);
+            updateCartCountDisplay();
+            if (currentPage === 'cart') {
+                renderPage(); // Re-render cart page to reflect changes
+            }
+        }
+
+        // --- Page Rendering Functions ---
+
+        function renderHomePage() {
+            appRoot.innerHTML = `
+                <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-400 to-yellow-500 text-white text-center p-4 pt-20 md:pt-24 pb-20">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 rounded-lg bg-black bg-opacity-20 p-4">
+                        Faruq Tikka Masala
+                    </h1>
+                    <p class="text-2xl md:text-4xl font-semibold mb-6">Are you Hungry? Don't Wait!</p>
+                    <p class="text-xl md:text-3xl mb-8">Let's start order food now</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+                        <button id="home-check-menu" class="bg-gray-900 text-orange-400 px-8 py-4 rounded-full text-lg md:text-xl font-bold shadow-lg hover:bg-gray-700 transition-all transform hover:scale-105">
+                            Check Menu
+                        </button>
+                        <button id="home-view-cart" class="bg-white text-gray-900 px-8 py-4 rounded-full text-lg md:text-xl font-bold shadow-lg hover:bg-gray-200 transition-all transform hover:scale-105">
+                            View Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('home-check-menu').onclick = () => navigateTo('menu');
+            document.getElementById('home-view-cart').onclick = () => navigateTo('cart');
+        }
+
+        function renderAboutPage() {
+            appRoot.innerHTML = `
+                <div class="min-h-screen bg-gray-100 flex flex-col items-center p-4 pt-20 md:pt-24 pb-20">
+                    <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-xl">
+                        <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">About Faruq Tikka Masala</h2>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                            In today's fast-paced lifestyle, convenience and efficiency have become vital elements for both businesses and consumers. For students, working individuals, and anyone with a packed schedule, taking time out to physically go to a restaurant and wait in line for food can be difficult. Our project addresses this problem by proposing a streamlined online food ordering system for a local restaurant, Faruq Tikka Masala.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                            The goal of this project is to digitize and simplify the food ordering process through a user-friendly website that allows customers to browse the menu, customize their orders, and make payments online - all from the comfort of their home or office.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            The proposed system will feature a well-organized homepage designed to guide users directly to the menu or their cart. A detailed menu section will allow customers to browse food items and add them to their cart, which can then be reviewed in the cart and checkout module before selecting a payment method. For a personalized experience, a user account feature will enable customers to register, log in, and manage their personal details, order history, payment settings, and saved addresses, all secured by an intuitive registration and login system. Finally, a dedicated contact section will facilitate communication between users and the restaurant for feedback, inquiries, or suggestions.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderContactPage() {
+            appRoot.innerHTML = `
+                <div class="min-h-screen bg-gray-900 text-white flex flex-col items-center p-4 pt-20 md:pt-24 pb-20">
+                    <div class="w-full max-w-4xl bg-gray-800 p-8 rounded-lg shadow-xl">
+                        <h2 class="text-4xl font-bold text-center text-orange-400 mb-8">Contact Us</h2>
+                        <p class="text-center text-gray-300 mb-10">
+                            We value your interest and involvement. Whether you have questions, need support, or want to get more involved, we're here to help. Below are the ways you can reach out to us directly or stay connected through our updates.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                            <div class="flex flex-col items-center justify-center bg-orange-400 text-gray-900 p-6 rounded-lg shadow-md">
+                                <svg class="w-10 h-10 mb-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-10C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path></svg>
+                                <p class="text-lg font-semibold text-center">Mahallah Faruq Cafe</p>
+                            </div>
+                            <div class="flex flex-col items-center justify-center bg-orange-400 text-gray-900 p-6 rounded-lg shadow-md">
+                                <svg class="w-10 h-10 mb-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.01 15.38c-1.23 0-2.42-.29-3.52-.84-.31-.16-.6-.24-.91-.24-.26 0-.52.09-.76.27l-2.02 1.48c-2.47-1.12-4.43-3.08-5.55-5.55l1.48-2.02c.18-.24.27-.5.27-.76 0-.31-.08-.6-.24-.91-.55-1.1-.84-2.29-.84-3.52 0-.25-.09-.5-.27-.73L4.23 2.5C4.07 2.29 3.82 2.16 3.53 2.16c-.22 0-.42.06-.61.18-.19.12-.34.28-.45.47-.11.19-.17.4-.17.63.02 2.76 1.13 5.4 3.12 7.39s4.63 3.1 7.39 3.12c.23 0 .44-.06.63-.17.19-.11.35-.26.47-.45.12-.19.18-.39.18-.61l-1.48-2.02zM15.38 20.01c2.76-.02 5.4-1.13 7.39-3.12s3.1-4.63 3.12-7.39c0-.23-.06-.44-.17-.63-.11-.19-.26-.35-.45-.47-.19-.12-.39-.18-.61-.18-.29 0-.54.13-.73.34L19.5 4.23c-.22.21-.35.46-.35.73 0 1.23.29 2.42.84 3.52.16.31.24.6.24.91 0 .26-.09.52-.27.76l-1.48 2.02c1.12 2.47 3.08 4.43 5.55 5.55l2.02-1.48c.24-.18.5-.27.76-.27.31 0 .6.08.91.24 1.1.55 2.29.84 3.52.84.25 0 .5.09.73.27l2.02 1.48c.21.15.34.4.34.73 0 .22-.06.42-.18.61-.12.19-.28.34-.47.45-.19.11-.4.17-.63.17-.19.02-2.76 1.13-5.4 3.12s-4.63 3.1-7.39 3.12c-.23 0-.44-.06-.63-.17-.19-.11-.35-.26-.47-.45-.11-.19-.17-.4-.17-.63z"></path></svg>
+                                <p class="text-lg font-semibold text-center">+03 6753 8945</p>
+                            </div>
+                            <div class="flex flex-col items-center justify-center bg-orange-400 text-gray-900 p-6 rounded-lg shadow-md">
+                                <svg class="w-10 h-10 mb-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"></path></svg>
+                                <p class="text-lg font-semibold text-center">Tik.Masala@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <form class="bg-white p-8 rounded-lg shadow-inner" id="contact-form">
+                            <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">Send us a message!</h3>
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Your Name</label>
+                                <input type="text" id="name" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-all" placeholder="John Doe" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Your Email</label>
+                                <input type="email" id="email" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-all" placeholder="john.doe@example.com" />
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Your Message</label>
+                                <textarea id="message" rows="5" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-y transition-all" placeholder="Type your message here..."></textarea>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            // No specific JS for this page, form submission would be handled server-side normally.
+        }
+
+        function renderAccountPage() {
+            let activeTab = 'personal'; // Default tab for account page
+
+            function getTabContent() {
+                switch (activeTab) {
+                    case 'personal':
+                        return `
+                            <div class="p-6">
+                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Personal Details</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                                        <input type="text" value="John" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Phone number</label>
+                                        <input type="text" value="011-22233344" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                                        <input type="email" value="john123@gmail.com" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                                        <input type="password" value="************" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    </div>
+                                </div>
+                                <div class="flex justify-end mt-8">
+                                    <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">Save Changes</button>
+                                </div>
+                            </div>
+                        `;
+                    case 'orders':
+                        return `
+                            <div class="p-6">
+                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Order History</h3>
+                                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md" role="alert">
+                                    <p class="font-bold">No orders found.</p>
+                                    <p class="text-sm">Start ordering delicious food from our menu!</p>
+                                </div>
+                            </div>
+                        `;
+                    case 'payment':
+                        return `
+                            <div class="p-6">
+                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Payment Details</h3>
+                                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md" role="alert">
+                                    <p class="font-bold">No payment methods saved.</p>
+                                    <p class="text-sm">Add a payment method for faster checkout.</p>
+                                </div>
+                            </div>
+                        `;
+                    case 'settings':
+                        return `
+                            <div class="p-6">
+                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Settings</h3>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md" role="alert">
+                                    <p class="font-bold">Settings page under development.</p>
+                                    <p class="text-sm">Check back later for more options.</p>
+                                </div>
+                            </div>
+                        `;
+                    case 'address':
+                        return `
+                            <div class="p-6">
+                                <h3 class="text-3xl font-bold text-gray-800 mb-6">Saved Address</h3>
+                                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
+                                    <p class="font-bold">No addresses saved.</p>
+                                    <p class="text-sm">Add your delivery address for convenience.</p>
+                                </div>
+                            </div>
+                        `;
+                    default:
+                        return '';
+                }
+            }
+
+            appRoot.innerHTML = `
+                <div class="min-h-screen bg-gray-900 flex flex-col items-center p-4 pt-20 md:pt-24 pb-20">
+                    <div class="w-full max-w-5xl bg-gradient-to-r from-orange-400 to-yellow-500 p-2 rounded-lg shadow-xl md:flex md:flex-row">
+                        <div class="w-full md:w-1/4 bg-gray-800 p-6 rounded-lg md:rounded-l-lg md:rounded-r-none shadow-lg mb-6 md:mb-0">
+                            <ul class="space-y-4">
+                                <li><button id="account-tab-personal" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'personal' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Personal Details</button></li>
+                                <li><button id="account-tab-orders" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'orders' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Orders</button></li>
+                                <li><button id="account-tab-payment" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'payment' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Payment Details</button></li>
+                                <li><button id="account-tab-settings" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'settings' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Settings</button></li>
+                                <li><button id="account-tab-address" class="block w-full text-left py-3 px-4 rounded-lg font-medium transition-colors ${activeTab === 'address' ? 'bg-orange-500 text-white' : 'text-gray-300 hover:bg-gray-700'}">Saved Address</button></li>
+                                <li><button id="account-logout" class="block w-full text-left py-3 px-4 rounded-lg font-medium text-red-400 hover:bg-gray-700 transition-colors">Log Out</button></li>
+                            </ul>
+                        </div>
+                        <div id="account-content" class="flex-1 bg-white p-8 rounded-lg md:rounded-r-lg md:rounded-l-none shadow-inner">
+                            ${getTabContent()}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Event listeners for account tabs
+            const accountContentDiv = document.getElementById('account-content');
+            const updateAccountContent = () => {
+                accountContentDiv.innerHTML = getTabContent();
+            };
+
+            document.getElementById('account-tab-personal').onclick = () => { activeTab = 'personal'; updateAccountContent(); };
+            document.getElementById('account-tab-orders').onclick = () => { activeTab = 'orders'; updateAccountContent(); };
+            document.getElementById('account-tab-payment').onclick = () => { activeTab = 'payment'; updateAccountContent(); };
+            document.getElementById('account-tab-settings').onclick = () => { activeTab = 'settings'; updateAccountContent(); };
+            document.getElementById('account-tab-address').onclick = () => { activeTab = 'address'; updateAccountContent(); };
+            document.getElementById('account-logout').onclick = () => { isLoggedIn = false; navigateTo('home'); };
+        }
+
+        function renderLoginPage() {
+            appRoot.innerHTML = `
+                <div class="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 pt-20 md:pt-24 pb-20">
+                    <div class="w-full max-w-lg bg-black bg-opacity-70 rounded-lg shadow-xl overflow-hidden md:flex">
+                        <div class="md:w-1/3 bg-gradient-to-b from-orange-400 to-yellow-500 flex flex-col items-center justify-center p-8 text-center text-gray-900 font-bold text-3xl">
+                            <p>Faruq</p>
+                            <p>Tikka</p>
+                            <p>Masala</p>
+                        </div>
+                        <div class="md:w-2/3 p-8">
+                            <h2 class="text-3xl font-bold mb-8 text-center text-orange-400" id="login-register-heading">Log In</h2>
+                            <form class="space-y-6" id="login-form">
+                                <div>
+                                    <label class="block text-gray-300 text-sm font-bold mb-2" for="username">Username</label>
+                                    <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 text-sm font-bold mb-2" for="password">Password</label>
+                                    <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="************" />
+                                </div>
+                                <div class="flex flex-col space-y-4">
+                                    <button type="submit" id="login-button" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
+                                        Log In
+                                    </button>
+                                    <button type="button" id="toggle-register-button" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
+                                        Sign Up (Register)
+                                    </button>
+                                </div>
+                            </form>
+                            <form class="space-y-6 hidden" id="register-form">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-300 text-sm font-bold mb-2" for="firstname">Firstname</label>
+                                        <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Firstname" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-300 text-sm font-bold mb-2" for="lastname">Lastname</label>
+                                        <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Lastname" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 text-sm font-bold mb-2" for="reg-email">Email</label>
+                                    <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="reg-email" type="email" placeholder="Email" />
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 text-sm font-bold mb-2" for="reg-password">Password</label>
+                                    <input class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="reg-password" type="password" placeholder="************" />
+                                </div>
+                                <div class="flex flex-col space-y-4">
+                                    <button type="submit" id="register-button" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
+                                        Register
+                                    </button>
+                                    <button type="button" id="toggle-login-button" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
+                                        Back to Login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const heading = document.getElementById('login-register-heading');
+
+            const toggleForms = () => {
+                if (showLogin) {
+                    loginForm.classList.remove('hidden');
+                    registerForm.classList.add('hidden');
+                    heading.textContent = 'Log In';
+                } else {
+                    loginForm.classList.add('hidden');
+                    registerForm.classList.remove('hidden');
+                    heading.textContent = 'Register';
+                }
+            };
+            toggleForms(); // Set initial state
+
+            document.getElementById('toggle-register-button').onclick = () => {
+                showLogin = false;
+                toggleForms();
+            };
+            document.getElementById('toggle-login-button').onclick = () => {
+                showLogin = true;
+                toggleForms();
+            };
+
+            document.getElementById('login-button').onclick = (e) => {
+                e.preventDefault();
+                isLoggedIn = true;
+                navigateTo('home');
+            };
+            document.getElementById('register-button').onclick = (e) => {
+                e.preventDefault();
+                showLogin = true; // After registration, show login form
+                toggleForms();
+                // In a real app, you'd send registration data to a server here.
+            };
+        }
+
+        function renderMenuPage() {
+            let selectedCategory = 'All';
+            let showItemDetail = false;
+            let selectedItem = null;
+            let itemQuantity = 1;
+
+            const updateMenuDisplay = () => {
+                const filtered = selectedCategory === 'All'
+                    ? foodItems
+                    : foodItems.filter(item => item.category === selectedCategory);
+
+                let foodItemsHtml = '';
+                if (filtered.length > 0) {
+                    foodItemsHtml = filtered.map(item => `
+                        <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105 duration-300 cursor-pointer food-item-card" data-item-id="${item.id}">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover rounded-t-xl" />
+                            <div class="p-4">
+                                <h3 class="text-xl font-bold text-white mb-2">${item.name}</h3>
+                                <div class="flex items-center text-yellow-400 text-lg mb-2">
+                                    <span class="mr-1">★</span> ${item.rating}
+                                </div>
+                                <p class="text-2xl font-bold text-orange-400 mb-4">RM ${item.price.toFixed(2)}</p>
+                                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full flex items-center justify-center space-x-2 transition-colors shadow-md add-to-cart-btn" data-item-id="${item.id}">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Add to Cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    foodItemsHtml = `
+                        <div class="col-span-full text-center text-gray-400 text-xl py-10">
+                            No items found in this category.
+                        </div>
+                    `;
+                }
+
+                let itemDetailModal = '';
+                if (showItemDetail && selectedItem) {
+                    itemDetailModal = `
+                        <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+                            <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden w-full max-w-lg md:max-w-xl lg:max-w-2xl">
+                                <div class="relative">
+                                    <img src="${selectedItem.image}" alt="${selectedItem.name}" class="w-full h-64 object-cover rounded-t-xl" />
+                                    <button id="close-item-detail" class="absolute top-4 right-4 text-white bg-gray-900 rounded-full p-2 hover:bg-gray-700 transition-colors">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-3xl font-bold text-orange-400 mb-2">${selectedItem.name}</h3>
+                                    <p class="text-gray-300 text-lg mb-4">${selectedItem.description}</p>
+                                    <div class="flex justify-between items-center mb-4">
+                                        <p class="text-xl font-bold text-white">RM ${selectedItem.price.toFixed(2)}</p>
+                                        <div class="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-2">
+                                            <button id="decrease-quantity" class="text-white text-xl font-bold">-</button>
+                                            <span id="item-quantity-display" class="text-white text-xl font-bold">${itemQuantity}</span>
+                                            <button id="increase-quantity" class="text-white text-xl font-bold">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center text-gray-400 text-sm mb-4">
+                                        <span class="mr-2">🕒</span> 20-30 minutes
+                                    </div>
+                                    <div class="flex items-center text-green-400 text-sm mb-6">
+                                        <span class="mr-2">⭐</span> Limited Offer!
+                                    </div>
+                                    <button id="add-to-cart-modal-btn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-full text-xl shadow-lg transition-colors transform hover:scale-105">
+                                        Add ${itemQuantity} to Cart (RM ${(selectedItem.price * itemQuantity).toFixed(2)})
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+
+                appRoot.innerHTML = `
+                    <div class="min-h-screen bg-gray-900 text-white p-4 pt-20 md:pt-24 pb-20">
+                        <div class="max-w-6xl mx-auto">
+                            <h2 class="text-4xl font-bold text-center text-orange-400 mb-8">FoodList</h2>
+
+                            <div class="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+                                <div class="flex space-x-4">
+                                    <button id="cat-all" class="px-6 py-3 rounded-full font-semibold transition-colors ${selectedCategory === 'All' ? 'bg-orange-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}">
+                                        All Categories
+                                    </button>
+                                    <button id="cat-alacarte" class="px-6 py-3 rounded-full font-semibold transition-colors ${selectedCategory === 'A la Carte' ? 'bg-orange-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}">
+                                        A la Carte
+                                    </button>
+                                    <button id="cat-combo" class="px-6 py-3 rounded-full font-semibold transition-colors ${selectedCategory === 'Combo' ? 'bg-orange-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}">
+                                        Combo
+                                    </button>
+                                </div>
+                                <button id="menu-my-cart" class="flex items-center text-orange-400 hover:text-orange-300 transition-colors">
+                                    <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    <span class="text-xl font-bold">My Cart (${cartItems.reduce((acc, item) => acc + item.quantity, 0)})</span>
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                ${foodItemsHtml}
+                            </div>
+                            ${itemDetailModal}
+                        </div>
+                    </div>
+                `;
+
+                // Add event listeners after rendering
+                document.getElementById('cat-all').onclick = () => { selectedCategory = 'All'; updateMenuDisplay(); };
+                document.getElementById('cat-alacarte').onclick = () => { selectedCategory = 'A la Carte'; updateMenuDisplay(); };
+                document.getElementById('cat-combo').onclick = () => { selectedCategory = 'Combo'; updateMenuDisplay(); };
+                document.getElementById('menu-my-cart').onclick = () => navigateTo('cart');
+
+                document.querySelectorAll('.food-item-card').forEach(card => {
+                    card.onclick = (e) => {
+                        // Only open detail if click is not on the add to cart button
+                        if (!e.target.closest('.add-to-cart-btn')) {
+                            const itemId = parseInt(card.dataset.itemId);
+                            selectedItem = foodItems.find(item => item.id === itemId);
+                            itemQuantity = 1; // Reset quantity
+                            showItemDetail = true;
+                            updateMenuDisplay(); // Re-render to show modal
+                        }
+                    };
+                });
+
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.onclick = (e) => {
+                        e.stopPropagation(); // Prevent card click event from firing
+                        const itemId = parseInt(e.currentTarget.dataset.itemId);
+                        const itemToAdd = foodItems.find(item => item.id === itemId);
+                        addToCart(itemToAdd);
+                    };
+                });
+
+                if (showItemDetail && selectedItem) {
+                    document.getElementById('close-item-detail').onclick = () => {
+                        showItemDetail = false;
+                        selectedItem = null;
+                        updateMenuDisplay(); // Re-render to hide modal
+                    };
+                    document.getElementById('decrease-quantity').onclick = () => {
+                        itemQuantity = Math.max(1, itemQuantity - 1);
+                        updateMenuDisplay();
+                    };
+                    document.getElementById('increase-quantity').onclick = () => {
+                        itemQuantity++;
+                        updateMenuDisplay();
+                    };
+                    document.getElementById('add-to-cart-modal-btn').onclick = () => {
+                        addToCart(selectedItem, itemQuantity);
+                        showItemDetail = false;
+                        selectedItem = null;
+                        updateMenuDisplay(); // Re-render to hide modal
+                    };
+                }
+            };
+            updateMenuDisplay(); // Initial render of the menu page
+        }
+
+        function renderCartPage() {
+            const calculateTotal = () => {
+                return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+            };
+
+            let cartItemsHtml = '';
+            if (cartItems.length === 0) {
+                cartItemsHtml = `
+                    <div class="text-center text-gray-400 text-xl py-10">
+                        Your cart is empty! <button id="cart-go-to-menu" class="text-orange-400 hover:underline">Start adding some delicious food.</button>
+                    </div>
+                `;
+            } else {
+                cartItemsHtml = `
+                    <div class="space-y-4 mb-8">
+                        ${cartItems.map(item => `
+                            <div class="bg-gray-800 rounded-xl shadow-md p-4 flex items-center space-x-4">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-500 rounded focus:ring-orange-400" checked />
+                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg" />
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-white">${item.name}</h3>
+                                    <p class="text-orange-400 text-lg font-semibold">RM ${item.price.toFixed(2)}</p>
+                                </div>
+                                <div class="flex items-center space-x-2 bg-gray-700 rounded-full px-3 py-1">
+                                    <button class="text-white text-lg font-bold decrease-cart-qty" data-item-id="${item.id}">-</button>
+                                    <span class="text-white text-lg font-bold">${item.quantity}</span>
+                                    <button class="text-white text-lg font-bold increase-cart-qty" data-item-id="${item.id}">+</button>
+                                </div>
+                                <button class="text-gray-400 hover:text-red-500 transition-colors remove-from-cart-btn" data-item-id="${item.id}">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-end mb-8">
+                        <button id="cart-checkout-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transition-colors transform hover:scale-105">
+                            CHECK OUT (RM ${calculateTotal().toFixed(2)})
+                        </button>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-gray-300 mb-6">Recommended For You <button id="cart-see-all-recommendations" class="text-sm text-orange-400 hover:underline ml-2">See All</button></h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        ${foodItems.slice(0, 4).map(item => `
+                            <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                                <img src="${item.image}" alt="${item.name}" class="w-full h-32 object-cover rounded-t-xl" />
+                                <div class="p-3">
+                                    <h4 class="text-md font-bold text-white">${item.name}</h4>
+                                    <p class="text-orange-400 text-lg font-semibold">RM ${item.price.toFixed(2)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            appRoot.innerHTML = `
+                <div class="min-h-screen bg-gray-900 text-white p-4 pt-20 md:pt-24 pb-20">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="text-4xl font-bold text-center text-orange-400 mb-8">My Cart</h2>
+                        ${cartItemsHtml}
+                    </div>
+                </div>
+            `;
+
+            // Add event listeners for cart page
+            if (cartItems.length === 0) {
+                document.getElementById('cart-go-to-menu').onclick = () => navigateTo('menu');
+            } else {
+                document.getElementById('cart-checkout-btn').onclick = () => navigateTo('checkout');
+                document.getElementById('cart-see-all-recommendations').onclick = () => navigateTo('menu');
+
+                document.querySelectorAll('.decrease-cart-qty').forEach(btn => {
+                    btn.onclick = (e) => {
+                        const itemId = parseInt(e.currentTarget.dataset.itemId);
+                        updateCartQuantity(itemId, -1);
+                    };
+                });
+                document.querySelectorAll('.increase-cart-qty').forEach(btn => {
+                    btn.onclick = (e) => {
+                        const itemId = parseInt(e.currentTarget.dataset.itemId);
+                        updateCartQuantity(itemId, 1);
+                    };
+                });
+                document.querySelectorAll('.remove-from-cart-btn').forEach(btn => {
+                    btn.onclick = (e) => {
+                        const itemId = parseInt(e.currentTarget.dataset.itemId);
+                        removeFromCart(itemId);
+                    };
+                });
+            }
+        }
+
+        function renderPaymentSuccessPage() {
+            appRoot.innerHTML = `
+                <div class="min-h-screen bg-gradient-to-br from-green-400 to-teal-500 text-white flex flex-col items-center justify-center p-4 pt-20 md:pt-24 pb-20 text-center">
+                    <svg class="w-32 h-32 mb-8 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h2 class="text-5xl font-extrabold mb-4">Payment Successful!</h2>
+                    <p class="text-2xl mb-8">Your order has been placed and will be delivered shortly.</p>
+                    <button id="back-to-home-from-success" class="bg-white text-green-700 px-8 py-4 rounded-full text-lg md:text-xl font-bold shadow-lg hover:bg-gray-200 transition-all transform hover:scale-105">
+                        Back to Home
+                    </button>
+                </div>
+            `;
+            // Clear cart after successful payment
+            cartItems = [];
+            updateCartCountDisplay();
+            document.getElementById('back-to-home-from-success').onclick = () => navigateTo('home');
+        }
+
+
+        function renderCheckoutPage() {
+            let showPaymentOptions = false; // Controls visibility of payment method selection
+            let selectedPaymentMethod = ''; // Stores the currently selected payment method
+
+            const calculateTotal = () => {
+                return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+            };
+
+            const subtotal = calculateTotal();
+            const deliveryFee = 5.00; // Example
+            const voucherDiscount = 0.00; // Example
+            const totalAmount = subtotal + deliveryFee - voucherDiscount;
+
+            // Function to generate HTML for the specific payment method content
+            const getPaymentContentHtml = () => {
+                switch (selectedPaymentMethod) {
+                    case 'Maybank':
+                        return `
+                            <div class="bg-white p-6 rounded-lg shadow-md text-gray-800">
+                                <h4 class="text-xl font-bold mb-4">Maybank2u.com</h4>
+                                <p class="mb-4">You will be redirected to the Maybank online banking portal to complete your payment.</p>
+                                <button id="pay-now-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-colors w-full">Pay Now</button>
+                            </div>
+                        `;
+                    case 'Bank Islam':
+                    case 'Bank Muamalat':
+                        return `
+                            <div class="bg-white p-6 rounded-lg shadow-md text-gray-800">
+                                <h4 class="text-xl font-bold mb-4">${selectedPaymentMethod} Online Banking</h4>
+                                <p class="text-gray-600 mb-4">You will be redirected to the ${selectedPaymentMethod} online banking portal to complete your payment.</p>
+                                <button id="pay-now-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full mt-4 transition-colors w-full">Pay Now</button>
+                            </div>
+                        `;
+                    case 'Credit / Debit Card':
+                        return `
+                            <div class="bg-white p-6 rounded-lg shadow-md text-gray-800">
+                                <h4 class="text-xl font-bold mb-4">Credit / Debit Card Payment</h4>
+                                <p class="text-gray-600 mb-4">Your card will be charged for the total amount.</p>
+                                <button id="pay-now-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-full transition-colors w-full">Pay Now</button>
+                            </div>
+                        `;
+                    case 'Cash On Delivery':
+                        return `
+                            <div class="bg-white p-6 rounded-lg shadow-md text-gray-800">
+                                <h4 class="text-xl font-bold mb-4">Cash On Delivery (COD)</h4>
+                                <p class="text-gray-600 mb-4">You will pay with cash upon receiving your order.</p>
+                                <button id="pay-now-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full transition-colors w-full">Confirm COD</button>
+                            </div>
+                        `;
+                    default:
+                        return `
+                            <div class="bg-gray-100 p-6 rounded-lg shadow-inner text-gray-600">
+                                <p class="text-center">Please select a payment method.</p>
+                            </div>
+                        `;
+                }
+            };
+
+            const updateCheckoutDisplay = () => {
+                appRoot.innerHTML = `
+                    <div class="min-h-screen bg-gradient-to-br from-orange-400 to-yellow-500 text-white p-4 pt-20 md:pt-24 pb-20 flex items-center justify-center">
+                        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-6xl flex flex-col md:flex-row gap-6">
+                            <!-- Confirm Order Section -->
+                            <div class="md:w-1/2 p-6 bg-gray-100 rounded-lg shadow-inner text-gray-800">
+                                <h3 class="text-2xl font-bold mb-6 text-center">Confirm Order</h3>
+                                <div class="space-y-4 mb-6">
+                                    ${cartItems.map(item => `
+                                        <div class="flex items-center space-x-4 bg-white p-3 rounded-lg shadow-sm">
+                                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md" />
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-lg">${item.name}</p>
+                                                <p class="text-sm text-gray-600">RM ${item.price.toFixed(2)} x ${item.quantity}</p>
+                                            </div>
+                                            <p class="font-bold text-lg">RM ${(item.price * item.quantity).toFixed(2)}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+
+                                <div class="border-t border-gray-300 pt-4 space-y-2">
+                                    <div class="flex justify-between text-lg">
+                                        <span>Subtotal:</span>
+                                        <span class="font-semibold">RM ${subtotal.toFixed(2)}</span>
+                                    </div>
+                                    <div class="flex justify-between text-lg">
+                                        <span>Delivery:</span>
+                                        <span class="font-semibold">RM ${deliveryFee.toFixed(2)}</span>
+                                    </div>
+                                    <div class="flex justify-between text-lg">
+                                        <span>Voucher:</span>
+                                        <span class="font-semibold text-red-500">- RM ${voucherDiscount.toFixed(2)}</span>
+                                    </div>
+                                    <div class="flex justify-between text-xl font-bold border-t border-gray-400 pt-3 mt-3">
+                                        <span>Total:</span>
+                                        <span class="text-orange-500">RM ${totalAmount.toFixed(2)}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Delivery to:</label>
+                                    <div class="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-3">
+                                        <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"></path></svg>
+                                        <span class="text-gray-700">Muhammad Nabil, Gombak</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Add Voucher:</label>
+                                    <input type="text" placeholder="Enter voucher code" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                                <button id="confirm-order-btn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-full mt-6 shadow-lg transition-colors transform hover:scale-105">
+                                    Confirm Order
+                                </button>
+                            </div>
+
+                            <!-- Payment Method Section -->
+                            <div class="md:w-1/2 p-6 bg-gray-100 rounded-lg shadow-inner text-gray-800 flex flex-col">
+                                <h3 class="text-2xl font-bold mb-6 text-center">Payment Method</h3>
+                                <div class="grid grid-cols-1 gap-4 mb-6">
+                                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                                        <h4 class="font-bold text-lg mb-2">Online Banking</h4>
+                                        <div class="flex flex-wrap gap-2">
+                                            <button id="pay-maybank" class="px-4 py-2 rounded-full text-sm font-medium ${selectedPaymentMethod === 'Maybank' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}">Maybank</button>
+                                            <button id="pay-bankislam" class="px-4 py-2 rounded-full text-sm font-medium ${selectedPaymentMethod === 'Bank Islam' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}">Bank Islam</button>
+                                            <button id="pay-bankmuamalat" class="px-4 py-2 rounded-full text-sm font-medium ${selectedPaymentMethod === 'Bank Muamalat' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}">Bank Muamalat</button>
+                                        </div>
+                                    </div>
+                                    <button id="pay-creditdebit" class="bg-white p-4 rounded-lg shadow-sm text-left font-bold ${selectedPaymentMethod === 'Credit / Debit Card' ? 'border-2 border-orange-500' : ''}">Credit / Debit Card</button>
+                                    <button id="pay-cod" class="bg-white p-4 rounded-lg shadow-sm text-left font-bold ${selectedPaymentMethod === 'Cash On Delivery' ? 'border-2 border-orange-500' : ''}">Cash On Delivery</button>
+                                </div>
+                                <div class="flex-1" id="payment-content-area">
+                                    ${getPaymentContentHtml()}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Add event listeners for the payment method selection buttons
+                document.getElementById('confirm-order-btn').onclick = () => { showPaymentOptions = true; updateCheckoutDisplay(); };
+
+                if (showPaymentOptions) {
+                    const paymentContentArea = document.getElementById('payment-content-area');
+
+                    const attachPaymentButtonListeners = () => {
+                        const payNowBtn = document.getElementById('pay-now-btn');
+                        if (payNowBtn) {
+                            payNowBtn.onclick = () => navigateTo('payment-success');
+                        }
+                    };
+
+                    document.getElementById('pay-maybank').onclick = () => {
+                        selectedPaymentMethod = 'Maybank';
+                        paymentContentArea.innerHTML = getPaymentContentHtml();
+                        attachPaymentButtonListeners();
+                    };
+                    document.getElementById('pay-bankislam').onclick = () => {
+                        selectedPaymentMethod = 'Bank Islam';
+                        paymentContentArea.innerHTML = getPaymentContentHtml();
+                        attachPaymentButtonListeners();
+                    };
+                    document.getElementById('pay-bankmuamalat').onclick = () => {
+                        selectedPaymentMethod = 'Bank Muamalat';
+                        paymentContentArea.innerHTML = getPaymentContentHtml();
+                        attachPaymentButtonListeners();
+                    };
+                    document.getElementById('pay-creditdebit').onclick = () => {
+                        selectedPaymentMethod = 'Credit / Debit Card';
+                        paymentContentArea.innerHTML = getPaymentContentHtml();
+                        attachPaymentButtonListeners();
+                    };
+                    document.getElementById('pay-cod').onclick = () => {
+                        selectedPaymentMethod = 'Cash On Delivery';
+                        paymentContentArea.innerHTML = getPaymentContentHtml();
+                        attachPaymentButtonListeners();
+                    };
+                    // Attach initial listener for the currently selected method if any
+                    attachPaymentButtonListeners();
+                }
+            };
+            updateCheckoutDisplay(); // Initial render of the checkout page
+        }
+
+        // --- Main Render Function ---
+        function renderPage() {
+            switch (currentPage) {
+                case 'home':
+                    renderHomePage();
+                    break;
+                case 'about':
+                    renderAboutPage();
+                    break;
+                case 'contact':
+                    renderContactPage();
+                    break;
+                case 'account':
+                    renderAccountPage();
+                    break;
+                case 'login':
+                    renderLoginPage();
+                    break;
+                case 'menu':
+                    renderMenuPage();
+                    break;
+                case 'cart':
+                    renderCartPage();
+                    break;
+                case 'checkout':
+                    renderCheckoutPage();
+                    break;
+                case 'payment-success':
+                    renderPaymentSuccessPage();
+                    break;
+                default:
+                    renderHomePage();
+            }
+            updateCartCountDisplay(); // Update cart count on every page render
+        }
+
+        // Initial render when the page loads
+        window.onload = function() {
+            renderPage();
+
+            // Attach navigation handlers to all navigation buttons
+            document.querySelectorAll('button[data-page]').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    navigateTo(event.currentTarget.dataset.page);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
