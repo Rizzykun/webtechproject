@@ -387,7 +387,8 @@
             if (!document.getElementById('google-maps-script')) {
                 const script = document.createElement('script');
                 script.id = 'google-maps-script'; 
-                script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAxJmT2OmLa1co7TZzGjd9BdnKFT4cTT-U&callback=getCurrentPosition`;
+                
+                script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD1bCf5YI80JXeE2fj7kPcsELiZMiDyd14&callback=getCurrentPosition`;
                 script.async = true;
                 script.defer = true;
                 document.head.appendChild(script);
@@ -1288,7 +1289,7 @@
                 case 'home':
                     renderHomePage();
                     break;
-                case 'contact':
+                case 'about':
                     renderAboutPage();
                     break;
                 case 'account':
