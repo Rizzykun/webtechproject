@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faruq Tikka Masala</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
@@ -79,18 +77,21 @@
                 padding-bottom: 0; /* No bottom padding needed on desktop */
             }
         }
+        /* Custom style for the map container */
+        #map {
+            height: 400px; /* Specific height for the map */
+            width: 100%;
+        }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-    <!-- Desktop Header -->
     <header class="desktop-header">
         <div class="text-2xl font-bold text-orange-400">Faruq Tikka Masala</div>
         <nav>
             <ul class="flex space-x-6">
                 <li><button class="hover:text-orange-400 transition-colors" data-page="home">Home</button></li>
                 <li><button class="hover:text-orange-400 transition-colors" data-page="menu">Menu</button></li>
-                <li><button class="hover:text-orange-400 transition-colors" data-page="about">About</button></li>
                 <li><button class="hover:text-orange-400 transition-colors" data-page="contact">Contact</button></li>
                 <li><button class="hover:text-orange-400 transition-colors" data-page="account">Account</button></li>
                 <li><button class="hover:text-orange-400 transition-colors" data-page="login">Log In</button></li>
@@ -104,12 +105,9 @@
         </nav>
     </header>
 
-    <!-- Main content area -->
     <div id="app-root" class="page-content">
-        <!-- Page content will be rendered here by JavaScript -->
-    </div>
+        </div>
 
-    <!-- Mobile Navigation Bar -->
     <nav class="mobile-nav">
         <ul class="flex justify-around items-center w-full">
             <li><button data-page="home" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
@@ -119,10 +117,6 @@
             <li><button data-page="menu" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 <span>Menu</span>
-            </button></li>
-            <li><button data-page="about" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>About</span>
             </button></li>
             <li><button data-page="contact" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
@@ -307,7 +301,7 @@
                 rating: 4.9,
                 price: 10.00,
                 image: 'https://res.cloudinary.com/du5xaipyu/image/upload/v1749528589/Set_C_lujram.jpg',
-                description: 'Melted Mozzarella Cheese Naan—gooey and delicious—served alongside your favorite Tandoori dish.',
+                description: 'Melted Mozzarella Cheese Naan—gooey and delicious—served alongside your selection of tender Tandoori.',
                 category: 'Combo',
             },
             {
@@ -315,7 +309,7 @@
                 name: 'Set D',
                 rating: 4.9,
                 price: 11.00,
-                image: 'https://res.cloudinary.com/du5xaipyu/image/upload/v1749528589/Set_D_fa7dmh.jpg',
+                image: 'https://res.cloudinary.com/du5xaipyu/image/upload/v1749528590/Set_D_fa7dmh.jpg',
                 description: 'Indulge in our cheesy Mozzarella Cheese Naan with a hearty portion of savory Qeema (minced meat), a delightful and satisfying pairing.',
                 category: 'Combo',
             },
@@ -330,6 +324,86 @@
             },
         ];
 
+        // --- Google Maps and Geolocation Functions ---
+        function initMap(latitude, longitude) {
+            const myLatLng = { lat: latitude, lng: longitude };
+
+            // Ensure the map div exists before trying to initialize
+            const mapElement = document.getElementById("map");
+            if (!mapElement) {
+                console.error("Map element #map not found.");
+                return;
+            }
+
+            const map = new google.maps.Map(mapElement, {
+                zoom: 15,
+                center: myLatLng,
+                mapId: 'DEMO_MAP_ID', // Using a demo map ID for basic map display
+            });
+
+            new google.maps.Marker({
+                position: myLatLng,
+                map,
+                title: "My Location",
+            });
+        }
+
+        function getCurrentPosition() {
+            const locationStatus = document.getElementById('location-status');
+            if (!locationStatus) {
+                console.error("Location status element #location-status not found.");
+                return;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        locationStatus.textContent = `Latitude: ${latitude.toFixed(6)}, Longitude: ${longitude.toFixed(6)}`;
+                        initMap(latitude, longitude);
+                    },
+                    (error) => {
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                locationStatus.textContent = "User denied the request for Geolocation. Please allow location access to see the map.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                locationStatus.textContent = "Location information is unavailable.";
+                                break;
+                            case error.TIMEOUT:
+                                locationStatus.textContent = "The request to get user location timed out.";
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                locationStatus.textContent = "An unknown error occurred.";
+                                break;
+                        }
+                    }
+                );
+            } else {
+                locationStatus.textContent = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        // This function will now be called when the checkout page is rendered
+        function loadGoogleMapsScriptForCheckout() {
+            // Only load the script if it hasn't been loaded already
+            if (!document.getElementById('google-maps-script')) {
+                const script = document.createElement('script');
+                script.id = 'google-maps-script'; // Add an ID to prevent duplicate loading
+                // IMPORTANT: Replace 'YOUR_API_KEY' with your actual Google Maps API Key
+                script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAxJmT2OmLa1co7TZzGjd9BdnKFT4cTT-U&callback=getCurrentPosition`;
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+            } else {
+                // If the script is already loaded, just call getCurrentPosition
+                // This is important for re-rendering the checkout page without reloading the API
+                if (typeof google !== 'undefined' && google.maps) {
+                    getCurrentPosition();
+                }
+            }
+        }
 
         // Function to update cart item count in header/navbar
         function updateCartCountDisplay() {
@@ -361,6 +435,10 @@
                 cartItems.push({ ...item, quantity });
             }
             updateCartCountDisplay();
+            // If on menu page, update the 'My Cart' button count immediately
+            if (currentPage === 'menu') {
+                document.getElementById('menu-my-cart').querySelector('span').textContent = `My Cart (${cartItems.reduce((acc, item) => acc + item.quantity, 0)})`;
+            }
         }
 
         // Function to update item quantity in cart
@@ -394,7 +472,6 @@
                         Faruq Tikka Masala
                     </h1>
                     <p class="text-2xl md:text-4xl font-semibold mb-6">Are you Hungry? Don't Wait!</p>
-                    <!-- Image Placeholder -->
                     <div class="w-full max-w-lg mb-8 rounded-lg overflow-hidden shadow-xl">
                         <img src="https://res.cloudinary.com/du5xaipyu/image/upload/v1749528582/Muka_depan_zuzqx8.jpg" alt="Delicious Food" class="w-full h-auto object-cover rounded-lg">
                     </div>
@@ -413,24 +490,7 @@
             document.getElementById('home-view-cart').onclick = () => navigateTo('cart');
         }
 
-        function renderAboutPage() {
-            appRoot.innerHTML = `
-                <div class="min-h-screen bg-gray-100 flex flex-col items-center p-4 pt-20 md:pt-24 pb-20">
-                    <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-xl">
-                        <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">About Faruq Tikka Masala</h2>
-                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                            In today's fast-paced lifestyle, convenience and efficiency have become vital elements for both businesses and consumers. For students, working individuals, and anyone with a packed schedule, taking time out to physically go to a restaurant and wait in line for food can be difficult. Our project addresses this problem by proposing a streamlined online food ordering system for a local restaurant, Faruq Tikka Masala.
-                        </p>
-                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                            The goal of this project is to digitize and simplify the food ordering process through a user-friendly website that allows customers to browse the menu, customize their orders, and make payments online - all from the comfort of their home or office.
-                        </p>
-                        <p class="text-lg text-gray-700 leading-relaxed">
-                            The proposed system will feature a well-organized homepage designed to guide users directly to the menu or their cart. A detailed menu section will allow customers to browse food items and add them to their cart, which can then be reviewed in the cart and checkout module before selecting a payment method. For a personalized experience, a user account feature will enable customers to register, log in, and manage their personal details, order history, payment settings, and saved addresses, all secured by an intuitive registration and login system. Finally, a dedicated contact section will facilitate communication between users and the restaurant for feedback, inquiries, or suggestions.
-                        </p>
-                    </div>
-                </div>
-            `;
-        }
+        // Removed renderAboutPage() function
 
         function renderContactPage() {
             appRoot.innerHTML = `
@@ -447,7 +507,7 @@
                                 <p class="text-lg font-semibold text-center">Mahallah Faruq Cafe</p>
                             </div>
                             <div class="flex flex-col items-center justify-center bg-orange-400 text-gray-900 p-6 rounded-lg shadow-md">
-                                <svg class="w-10 h-10 mb-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.01 15.38c-1.23 0-2.42-.29-3.52-.84-.31-.16-.6-.24-.91-.24-.26 0-.52.09-.76.27l-2.02 1.48c-2.47-1.12-4.43-3.08-5.55-5.55l1.48-2.02c.18-.24.27-.5.27-.76 0-.31-.08-.6-.24-.91-.55-1.1-.84-2.29-.84-3.52 0-.25-.09-.5-.27-.73L4.23 2.5C4.07 2.29 3.82 2.16 3.53 2.16c-.22 0-.42.06-.61.18-.19.12-.34.28-.45.47-.11.19-.17.4-.17.63.02 2.76 1.13 5.4 3.12 7.39s4.63 3.1 7.39 3.12c.23 0 .44-.06.63-.17.19-.11.35-.26.47-.45.12-.19.18-.39.18-.61l-1.48-2.02zM15.38 20.01c2.76-.02 5.4-1.13 7.39-3.12s3.1-4.63 3.12-7.39c0-.23-.06-.44-.17-.63-.11-.19-.26-.35-.45-.47-.19-.12-.39-.18-.61-.18-.29 0-.54.13-.73.34L19.5 4.23c-.22.21-.35.46-.35.73 0 1.23.29 2.42.84 3.52.16.31.24.6.24.91 0 .26-.09.52-.27.76l-1.48 2.02c1.12 2.47 3.08 4.43 5.55 5.55l2.02-1.48c.24-.18.5-.27.76-.27.31 0 .6.08.91.24 1.1.55 2.29.84 3.52.84.25 0 .5.09.73.27l2.02 1.48c.21.15.34.4.34.73 0 .22-.06.42-.18.61-.12.19-.28.34-.47.45-.19.11-.4.17-.63.17-.19.02-2.76 1.13-5.4 3.12s-4.63 3.1-7.39 3.12c-.23 0-.44-.06-.63-.17-.19-.11-.35-.26-.47-.45-.11-.19-.17-.4-.17-.63z"></path></svg>
+                                <svg class="w-10 h-10 mb-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.01 15.38c-1.23 0-2.42-.29-3.52-.84-.31-.16-.6-.24-.91-.24-.26 0-.52.09-.76.27l-2.02 1.48c-2.47-1.12-4.43-3.08-5.55-5.55l1.48-2.02c.18-.24.27-.5.27-.76 0-.31-.08-.6-.24-.91-.55-1.1-.84-2.29-.84-3.52 0-.25-.09-.5-.27-.73L4.23 2.5C4.07 2.29 3.82 2.16 3.53 2.16c-.22 0-.42.06-.61.18-.19.12-.34.28-.45.47-.11.19-.17.4-.17.63.02 2.76 1.13 5.4 3.12 7.39s4.63 3.1 7.39 3.12c.23 0 .44-.06.63-.17.19-.11.35-.26.47-.45.12-.19.18-.39.18-.61l-1.48-2.02zM15.38 20.01c2.76-.02 5.4-1.13 7.39-3.12s3.1-4.63 3.12-7.39c0-.23-.06-.44-.17-.63-.11-.19-.26-.35-.45-.47-.19-.12-.39-.18-.61-.18-.29 0-.54.13-.73.34L19.5 4.23c-.22.21-.35.46-.35.73 0 1.23.29 2.42.84 3.52.16.31.24.6.24.91 0 .26-.09.52-.27.76l-1.48 2.02c1.12 2.47 3.08 4.43 5.55 5.55l2.02-1.48c.24-.18.5-.27.76-.27.31 0 .6.08.91.24 1.1.55 2.29.84 3.52.84.25 0 .5.09.73.27l2.02 1.48c.21.15.34.4.34.73 0 .22-.06.42-.18.61-.12.19-.28.34-.47.45-.19.11-.4.17-.63.17-.19.02-2.76 1.13-5.4 3.12s-4.63 3.1-7.39 3.12c-.23 0-.44-.06-.19-.11-.35-.26-.47-.45-.11-.19-.17-.4-.17-.63z"></path></svg>
                                 <p class="text-lg font-semibold text-center">+03 6753 8945</p>
                             </div>
                             <div class="flex flex-col items-center justify-center bg-orange-400 text-gray-900 p-6 rounded-lg shadow-md">
@@ -487,7 +547,7 @@
 
             function getTabContent() {
                 // Ensure current user is logged in to display their details
-                if (!currentUser) {
+                if (!isLoggedIn) {
                     return `
                         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
                             <p class="font-bold">Access Denied!</p>
@@ -903,6 +963,8 @@
                         const itemId = parseInt(e.currentTarget.dataset.itemId);
                         const itemToAdd = foodItems.find(item => item.id === itemId);
                         addToCart(itemToAdd);
+                        // No need to re-render the entire menu page for count update
+                        // The `addToCart` function now updates the 'My Cart' button directly.
                     };
                 });
 
@@ -948,7 +1010,6 @@
                     <div class="space-y-4 mb-8">
                         ${cartItems.map(item => `
                             <div class="bg-gray-800 rounded-xl shadow-md p-4 flex items-center space-x-4">
-                                <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-500 rounded focus:ring-orange-400" checked />
                                 <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg" />
                                 <div class="flex-1">
                                     <h3 class="text-xl font-bold text-white">${item.name}</h3>
@@ -1055,7 +1116,7 @@
 
 
         function renderCheckoutPage() {
-            let showPaymentOptions = false; // Controls visibility of payment method selection
+            let showPaymentOptions = true; // Changed to true by default
             let selectedPaymentMethod = ''; // Stores the currently selected payment method
 
             const calculateTotal = () => {
@@ -1116,9 +1177,8 @@
                 appRoot.innerHTML = `
                     <div class="min-h-screen bg-gradient-to-br from-orange-400 to-yellow-500 text-white p-4 pt-20 md:pt-24 pb-20 flex items-center justify-center">
                         <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-6xl flex flex-col md:flex-row gap-6">
-                            <!-- Confirm Order Section -->
                             <div class="md:w-1/2 p-6 bg-gray-100 rounded-lg shadow-inner text-gray-800">
-                                <h3 class="text-2xl font-bold mb-6 text-center">Confirm Order</h3>
+                                <h3 class="text-2xl font-bold mb-6 text-center">Order Summary</h3>
                                 <div class="space-y-4 mb-6">
                                     ${cartItems.map(item => `
                                         <div class="flex items-center space-x-4 bg-white p-3 rounded-lg shadow-sm">
@@ -1153,21 +1213,21 @@
 
                                 <div class="mt-6">
                                     <label class="block text-gray-700 text-sm font-bold mb-2">Delivery to:</label>
-                                    <div class="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-3">
+                                    <div class="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-3 mb-4">
                                         <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"></path></svg>
                                         <span class="text-gray-700">${currentUser ? currentUser.username : 'Your Name '}</span>
                                     </div>
+                                    <h4 class="text-lg font-semibold mb-2">Your Current Location:</h4>
+                                    <p id="location-status" class="text-gray-600 text-sm mb-4">Locating...</p>
+                                    <div id="map" class="w-full h-96 bg-gray-200 rounded-lg shadow-inner"></div>
                                 </div>
+
                                 <div class="mt-4">
                                     <label class="block text-gray-700 text-sm font-bold mb-2">Add Voucher:</label>
                                     <input type="text" placeholder="Enter voucher code" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>
-                                <button id="confirm-order-btn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-full mt-6 shadow-lg transition-colors transform hover:scale-105">
-                                    Confirm Order
-                                </button>
-                            </div>
+                                </div>
 
-                            <!-- Payment Method Section -->
                             <div class="md:w-1/2 p-6 bg-gray-100 rounded-lg shadow-inner text-gray-800 flex flex-col">
                                 <h3 class="text-2xl font-bold mb-6 text-center">Payment Method</h3>
                                 <div class="grid grid-cols-1 gap-4 mb-6">
@@ -1190,57 +1250,53 @@
                     </div>
                 `;
 
-                // Add event listeners for the payment method selection buttons
-                document.getElementById('confirm-order-btn').onclick = () => { showPaymentOptions = true; updateCheckoutDisplay(); };
+                // Attaching event listeners for the payment method selection buttons
+                // No longer need document.getElementById('confirm-order-btn').onclick = () => { showPaymentOptions = true; updateCheckoutDisplay(); };
 
-                if (showPaymentOptions) {
-                    const paymentContentArea = document.getElementById('payment-content-area');
+                const paymentContentArea = document.getElementById('payment-content-area');
 
-                    const attachPaymentButtonListeners = () => {
-                        const payNowBtn = document.getElementById('pay-now-btn');
-                        if (payNowBtn) {
-                            payNowBtn.onclick = () => {
-                                if (!isLoggedIn) {
-                                    // Handle case where user is not logged in but tries to pay
-                                    // In a real app, this would redirect to login or show an error
-                                    console.log("Please log in to complete your order.");
-                                    // For now, we'll allow guests to proceed for demonstration
-                                }
-                                navigateTo('payment-success');
+                const attachPaymentButtonListeners = () => {
+                    const payNowBtn = document.getElementById('pay-now-btn');
+                    if (payNowBtn) {
+                        payNowBtn.onclick = () => {
+                            if (!isLoggedIn) {
+                                console.log("Please log in to complete your order or proceed as guest.");
                             }
+                            navigateTo('payment-success');
                         }
-                    };
+                    }
+                };
 
-                    document.getElementById('pay-maybank').onclick = () => {
-                        selectedPaymentMethod = 'Maybank';
-                        paymentContentArea.innerHTML = getPaymentContentHtml();
-                        attachPaymentButtonListeners();
-                    };
-                    document.getElementById('pay-bankislam').onclick = () => {
-                        selectedPaymentMethod = 'Bank Islam';
-                        paymentContentArea.innerHTML = getPaymentContentHtml();
-                        attachPaymentButtonListeners();
-                    };
-                    document.getElementById('pay-bankmuamalat').onclick = () => {
-                        selectedPaymentMethod = 'Bank Muamalat';
-                        paymentContentArea.innerHTML = getPaymentContentHtml();
-                        attachPaymentButtonListeners();
-                    };
-                    document.getElementById('pay-creditdebit').onclick = () => {
-                        selectedPaymentMethod = 'Credit / Debit Card';
-                        paymentContentArea.innerHTML = getPaymentContentHtml();
-                        attachPaymentButtonListeners();
-                    };
-                    document.getElementById('pay-cod').onclick = () => {
-                        selectedPaymentMethod = 'Cash On Delivery';
-                        paymentContentArea.innerHTML = getPaymentContentHtml();
-                        attachPaymentButtonListeners();
-                    };
-                    // Attach initial listener for the currently selected method if any
+                document.getElementById('pay-maybank').onclick = () => {
+                    selectedPaymentMethod = 'Maybank';
+                    paymentContentArea.innerHTML = getPaymentContentHtml();
                     attachPaymentButtonListeners();
-                }
+                };
+                document.getElementById('pay-bankislam').onclick = () => {
+                    selectedPaymentMethod = 'Bank Islam';
+                    paymentContentArea.innerHTML = getPaymentContentHtml();
+                    attachPaymentButtonListeners();
+                };
+                document.getElementById('pay-bankmuamalat').onclick = () => {
+                    selectedPaymentMethod = 'Bank Muamalat';
+                    paymentContentArea.innerHTML = getPaymentContentHtml();
+                    attachPaymentButtonListeners();
+                };
+                document.getElementById('pay-creditdebit').onclick = () => {
+                    selectedPaymentMethod = 'Credit / Debit Card';
+                    paymentContentArea.innerHTML = getPaymentContentHtml();
+                    attachPaymentButtonListeners();
+                };
+                document.getElementById('pay-cod').onclick = () => {
+                    selectedPaymentMethod = 'Cash On Delivery';
+                    paymentContentArea.innerHTML = getPaymentContentHtml();
+                    attachPaymentButtonListeners();
+                };
+                // Attach initial listener for the currently selected method if any (if no default selected, this does nothing)
+                attachPaymentButtonListeners();
             };
             updateCheckoutDisplay(); // Initial render of the checkout page
+            loadGoogleMapsScriptForCheckout(); // Load maps script when checkout page is rendered
         }
 
         // --- Main Render Function ---
@@ -1249,9 +1305,7 @@
                 case 'home':
                     renderHomePage();
                     break;
-                case 'about':
-                    renderAboutPage();
-                    break;
+                // Removed 'about' case
                 case 'contact':
                     renderContactPage();
                     break;
